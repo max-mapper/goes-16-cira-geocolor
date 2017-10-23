@@ -26,7 +26,7 @@ request('http://rammb-slider.cira.colostate.edu/data/json/goes-16/full_disk/geoc
     }
   })
   run(fns, 1, function () {
-    getTimestamps()
+    getTimestamps(timestamps)
   })
 })
 
