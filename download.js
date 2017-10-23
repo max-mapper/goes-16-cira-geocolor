@@ -27,7 +27,6 @@ module.exports = function (url, opts, target, cb) {
             fs.rename(tmp, target, function (err) {
               if (err) return cb(err)
               console.error(url)
-              fs.unlink(tmp, cb)
             })
           })
         })
