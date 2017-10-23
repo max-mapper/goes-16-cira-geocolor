@@ -6,15 +6,15 @@ var moment = require('moment-timezone')
 var download = require('./download.js')
 
 var headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.62 Safari/537.36'}
+mkdirp.sync('./tmp')
 
 // get latest timestamp
 request('http://rammb-slider.cira.colostate.edu/data/json/goes-16/full_disk/geocolor/latest_times.json', {json: true, headers: headers}, function (err, resp, json) {
   var today = json.timestamps_int[0].toString().slice(0, 8)
-  // use latest to generate last 3 days
+  // use latest to generate last 2 days
   var days = [
     today,
-    moment(today).subtract(1, 'days').format('YYYYMMDD'),
-    moment(today).subtract(2, 'days').format('YYYYMMDD')
+    moment(today).subtract(1, 'days').format('YYYYMMDD')
   ]
   var timestamps = []
   // get all 15 min timestamps for last 3 days
@@ -53,6 +53,6 @@ function getTimestamps (timestamps) {
     })
   })
   run(queue, 5, function (err) {
-    console.log('done')
+    console.log('done', err)
   })
 }

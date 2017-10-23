@@ -5,7 +5,7 @@ var request = require('request')
 var mkdirp = require('mkdirp')
 
 module.exports = function (url, opts, target, cb) {
-  var tmpDir = os.tmpdir()
+  var tmpDir = './tmp'
   var retries = opts.retries || 3
   tryDl()
   function tryDl () {
