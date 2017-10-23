@@ -37,7 +37,7 @@ request('http://rammb-slider.cira.colostate.edu/data/json/goes-16/full_disk/geoc
 function getTimestamps (timestamps) {
   var queue = []
   timestamps.forEach(function (stamp) {
-    var date = stamp.slice(0, 8)
+    var date = stamp.toString().slice(0, 8)
     var tiles = ['001_003', '001_004', '001_005', '002_003', '002_004', '002_005', '003_003', '003_004', '003_005']
     tiles.map(function (t) {
       var item = {}
