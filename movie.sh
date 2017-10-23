@@ -1,0 +1,1 @@
+ffmpeg -r 10 -pattern_type glob -i 'renders/*.png' -vf scale=2034:-1 -vcodec libx264 -crf 25 output.mp4

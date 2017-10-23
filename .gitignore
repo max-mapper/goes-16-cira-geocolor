@@ -1,0 +1,6 @@
+images/*
+overlay/*
+renders/*
+node_modules
+.DS_Store
+*.mp4
