@@ -17,11 +17,14 @@ module.exports = function (url, opts, target, cb) {
         setTimeout(tryDl, 5000) // wait 5 seconds in case server is having a momentary hiccup
       })
       // write to tmpdir and rename when successful to avoid corrupted half-dl
-      var tmp = tmpdir + '/goes-16-tmp-' + Date.now()
+      var tmp = tmpDir + '/goes-16-tmp-' + Date.now()
       req.pipe(fs.createWriteStream(tmp)).on('finish', function () {
         mkdirp(path.dirname(target), function (err) {
           if (err) return cb(err)
-          fs.rename(tmp, target, cb)            
+          fs.rename(tmp, target, function (err) {
+            if (err) return cb(err)
+            fs.unlink(tmp, cb)
+          })            
         })
       })
     })
