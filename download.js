@@ -20,7 +20,7 @@ module.exports = function (url, opts, target, cb) {
       // write to tmpdir and rename when successful to avoid corrupted half-dl
       var tmp = tmpDir + '/goes-16-tmp-' + Date.now()
       req.on('response', function (resp) {
-        if (resp.statusCode !== 200) return cb(new Error('Status ' + resp.statusCode))
+        if (resp.statusCode !== 200) return cb(new Error('Status ' + resp.statusCode + ' ' + url))
         resp.pipe(fs.createWriteStream(tmp)).on('finish', function () {
           mkdirp(path.dirname(target), function (err) {
             if (err) return cb(err)
