@@ -13,7 +13,7 @@ module.exports = function (url, opts, target, cb) {
     fs.stat(target, function (err, stat) {
       if (!err) return cb() // skip if exists already
       var req = request(url, opts)
-      req.on('error'. function (err) {
+      req.on('error', function (err) {
         setTimeout(tryDl, 5000) // wait 5 seconds in case server is having a momentary hiccup
       })
       // write to tmpdir and rename when successful to avoid corrupted half-dl
