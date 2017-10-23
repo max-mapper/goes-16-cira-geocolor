@@ -19,13 +19,16 @@ module.exports = function (url, opts, target, cb) {
       })
       // write to tmpdir and rename when successful to avoid corrupted half-dl
       var tmp = tmpDir + '/goes-16-tmp-' + Date.now()
-      req.pipe(fs.createWriteStream(tmp)).on('finish', function () {
-        mkdirp(path.dirname(target), function (err) {
-          if (err) return cb(err)
-          fs.rename(tmp, target, function (err) {
+      req.on('response', function (resp) {
+        if (resp.statusCode !== 200) return cb(new Error('Status ' + resp.statusCode)
+        resp.pipe(fs.createWriteStream(tmp)).on('finish', function () {
+          mkdirp(path.dirname(target), function (err) {
             if (err) return cb(err)
-            console.error(url)
-            fs.unlink(tmp, cb)
+            fs.rename(tmp, target, function (err) {
+              if (err) return cb(err)
+              console.error(url)
+              fs.unlink(tmp, cb)
+            })
           })
         })
       })
