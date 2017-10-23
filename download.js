@@ -18,7 +18,7 @@ module.exports = function (url, opts, target, cb) {
         setTimeout(tryDl, 5000) // wait 5 seconds in case server is having a momentary hiccup
       })
       // write to tmpdir and rename when successful to avoid corrupted half-dl
-      var tmp = tmpDir + '/goes-16-tmp-' + Date.now()
+      var tmp = tmpDir + '/goes-16-tmp-' + path.basename(target) + '-' + Date.now()
       req.on('response', function (resp) {
         if (resp.statusCode !== 200) return cb(new Error('Status ' + resp.statusCode + ' ' + url))
         resp.pipe(fs.createWriteStream(tmp)).on('finish', function () {
