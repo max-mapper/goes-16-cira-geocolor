@@ -1,5 +1,6 @@
 var fs = require('fs')
 var os = require('os')
+var path = require('path')
 var request = require('request')
 var mkdirp = require('mkdirp')
 
