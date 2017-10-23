@@ -3,9 +3,12 @@ var request = require('request')
 var mkdirp = require('mkdirp')
 var run = require('run-parallel-limit')
 var moment = require('moment-timezone')
+var download = require('./download.js')
+
+var headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.62 Safari/537.36'}
 
 // get latest timestamp
-request('http://rammb-slider.cira.colostate.edu/data/json/goes-16/full_disk/geocolor/latest_times.json', {json: true}, function (err, resp, json) {
+request('http://rammb-slider.cira.colostate.edu/data/json/goes-16/full_disk/geocolor/latest_times.json', {json: true, headers: headers}, function (err, resp, json) {
   var today = json.timestamps_int[0].toString().slice(0, 8)
   // use latest to generate last 3 days
   var days = [
@@ -17,7 +20,7 @@ request('http://rammb-slider.cira.colostate.edu/data/json/goes-16/full_disk/geoc
   // get all 15 min timestamps for last 3 days
   var fns = days.map(function (d) {
     return function (cb) {
-      request(`http://rammb-slider.cira.colostate.edu/data/json/goes-16/full_disk/geocolor/${d}_by_hour.json`, {json: true}, function (err, resp, json) {
+      request(`http://rammb-slider.cira.colostate.edu/data/json/goes-16/full_disk/geocolor/${d}_by_hour.json`, {json: true, headers: headers}, function (err, resp, json) {
         Object.keys(json.timestamps_int).forEach(function (i) {
           timestamps = timestamps.concat(json.timestamps_int[i])
         })
@@ -43,21 +46,13 @@ function getTimestamps (timestamps) {
       item.stamp = stamp
       item.date = date
       var fn = function (cb) {
-        if (fs.existsSync(item.filename)) return cb()
-        mkdirp.sync(`./images/${item.stamp}`)
-        // wait for successful response before creating file to avoid corrupt/empty pngs
-        request(item.url).on('response', function (resp) {
-          resp.pipe(fs.createWriteStream(item.filename)).on('finish', function () {
-            console.log('done', item.url)
-            cb()
-          })
-        })
+        download(item.url, {headers: headers}, item.filename, cb)
       }
       var closure = (function (item) { return fn })(item)
       queue.push(closure)
     })
   })
-  run(queue, 10, function (err) {
+  run(queue, 5, function (err) {
     console.log('done')
   })
 }
