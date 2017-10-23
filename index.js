@@ -31,7 +31,7 @@ request('http://rammb-slider.cira.colostate.edu/data/json/goes-16/full_disk/geoc
 })
 
 // download all west coast tiles for last 3 days
-function getTimestamps () {
+function getTimestamps (timestamps) {
   var queue = []
   timestamps.forEach(function (stamp) {
     var date = stamp
