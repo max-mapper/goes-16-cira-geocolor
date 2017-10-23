@@ -1,6 +1,7 @@
-images/*
-overlay/*
-renders/*
+images
+overlay
+renders
+movietmp
 node_modules
 .DS_Store
 *.mp4

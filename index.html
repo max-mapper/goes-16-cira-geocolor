@@ -1,2 +1,9 @@
 <style> html, body { margin: 0; padding: 0 } </style>
-<video src=output.mp4 autoplay loop controls min-width=100%> 
+<video src=24hrs.mp4 autoplay loop controls min-width=100%></video>
+<p>Imagery from <a href="http://rammb-slider.cira.colostate.edu">Colorado State University RAMMB/CIRA Slider. Source <a href="https://github.com/maxogden/goes-16-cira-geocolor">on Github</a>. Help distribute by seeding with Dat or Beaker Browser.</p>
+<script>
+  var video = document.querySelector('video')
+  video.onclick = function (e) {
+    video.paused ? video.play() : video.pause()
+  }
+</script>
