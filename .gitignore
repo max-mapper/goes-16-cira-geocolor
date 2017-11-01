@@ -1,8 +1,9 @@
 images
+movietmp
+node_modules
 overlay
 output
 renders
-movietmp
-node_modules
+tmp
 .DS_Store
 *.mp4
