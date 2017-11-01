@@ -53,6 +53,6 @@ function getTimestamps (timestamps) {
     })
   })
   run(queue, 5, function (err) {
-    console.log('done', err)
+    console.log(err ? err : 'success')
   })
 }
